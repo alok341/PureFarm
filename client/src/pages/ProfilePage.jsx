@@ -220,7 +220,7 @@ const ProfilePage = () => {
       );
       if (response.data.success) {
         toast.success("Location coordinates updated! You can now use 'Home Address' for nearby search.");
-        dispatch(loadUser()); // Reload user data
+        dispatch(loadUser());
       }
     } catch (error) {
       toast.error(error.response?.data?.message || "Failed to update location");
@@ -253,9 +253,16 @@ const ProfilePage = () => {
 
   const handleUserSubmit = async (e) => {
     e.preventDefault();
-    await dispatch(updateProfile(userForm));
-    setUserSaveSuccess(true);
-    setTimeout(() => setUserSaveSuccess(false), 3000);
+    try {
+      const result = await dispatch(updateProfile(userForm)).unwrap();
+      if (result.success) {
+        setUserSaveSuccess(true);
+        toast.success("Profile updated successfully!");
+        setTimeout(() => setUserSaveSuccess(false), 3000);
+      }
+    } catch (error) {
+      toast.error(error.message || "Failed to update profile");
+    }
   };
 
   const handleFarmerSubmit = (e) => {
@@ -277,7 +284,6 @@ const ProfilePage = () => {
     { key: "sunday", label: "Sunday" },
   ];
 
-  // Check if user has valid coordinates
   const hasValidCoordinates = user?.address?.location?.coordinates && 
     user.address.location.coordinates[0] !== 0 && 
     user.address.location.coordinates[1] !== 0;

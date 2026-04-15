@@ -120,68 +120,54 @@ exports.updateUserProfile = async (req, res) => {
 
     const user = await User.findById(req.user._id);
 
-    if (user) {
-      user.name = name || user.name;
-      user.phone = phone || user.phone;
-      
-      if (address) {
-        // Check if address actually changed
-        const addressChanged = 
-          address.street !== user.address?.street ||
-          address.city !== user.address?.city ||
-          address.state !== user.address?.state ||
-          address.zipCode !== user.address?.zipCode;
-        
-        if (addressChanged) {
-          // Geocode the new address to get coordinates
-          const coordinates = await geocodeAddress(address);
-          
-          user.address = {
-            street: address.street || user.address?.street || "",
-            city: address.city || user.address?.city || "",
-            state: address.state || user.address?.state || "",
-            zipCode: address.zipCode || user.address?.zipCode || "",
-            location: {
-              type: "Point",
-              coordinates: [coordinates.lng, coordinates.lat]
-            }
-          };
-          
-          console.log(`📍 Geocoded address for ${user.name}:`, coordinates);
-        } else {
-          // Address didn't change, keep existing coordinates
-          user.address = {
-            street: address.street || user.address?.street || "",
-            city: address.city || user.address?.city || "",
-            state: address.state || user.address?.state || "",
-            zipCode: address.zipCode || user.address?.zipCode || "",
-            location: user.address?.location || { type: "Point", coordinates: [0, 0] }
-          };
-        }
-      }
-
-      const updatedUser = await user.save();
-
-      res.json({
-        success: true,
-        message: "Profile updated successfully! Location coordinates updated.",
-        data: {
-          _id: updatedUser._id,
-          name: updatedUser.name,
-          email: updatedUser.email,
-          role: updatedUser.role,
-          phone: updatedUser.phone,
-          address: updatedUser.address,
-        },
-      });
-    } else {
-      res.status(404).json({ success: false, message: "User not found" });
+    if (!user) {
+      return res.status(404).json({ success: false, message: "User not found" });
     }
+
+    // Update basic info
+    if (name) user.name = name;
+    if (phone) user.phone = phone;
+    
+    // Handle address update with geocoding
+    if (address) {
+      // Geocode the address to get coordinates
+      const coordinates = await geocodeAddress(address);
+      
+      user.address = {
+        street: address.street || "",
+        city: address.city || "",
+        state: address.state || "",
+        zipCode: address.zipCode || "",
+        location: {
+          type: "Point",
+          coordinates: [coordinates.lng, coordinates.lat]
+        }
+      };
+      
+      console.log(`📍 Geocoded address for ${user.name}:`, coordinates);
+    }
+
+    const updatedUser = await user.save();
+
+    res.json({
+      success: true,
+      message: "Profile updated successfully! Location coordinates updated.",
+      data: {
+        _id: updatedUser._id,
+        name: updatedUser.name,
+        email: updatedUser.email,
+        role: updatedUser.role,
+        phone: updatedUser.phone,
+        address: updatedUser.address,
+      },
+    });
   } catch (error) {
-    console.error(error);
-    res
-      .status(500)
-      .json({ success: false, message: "Server error", error: error.message });
+    console.error("Update profile error:", error);
+    res.status(500).json({ 
+      success: false, 
+      message: "Server error", 
+      error: error.message 
+    });
   }
 };
 
