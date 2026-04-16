@@ -38,7 +38,7 @@ const AIInsightsCard = ({ product, type = "farmer" }) => {
     return (
       <div className="bg-white rounded-2xl shadow-lg p-6 flex items-center justify-center">
         <FaSpinner className="animate-spin text-teal-600 text-2xl" />
-        <span className="ml-2 text-gray-600">Analyzing with AI...</span>
+        <span className="ml-2 text-gray-600">Loading insights...</span>
       </div>
     );
   }
@@ -71,8 +71,8 @@ const AIInsightsCard = ({ product, type = "farmer" }) => {
         <div className="w-10 h-10 bg-gradient-to-r from-teal-600 to-emerald-600 rounded-xl flex items-center justify-center">
           <FaBrain className="text-white text-lg" />
         </div>
-        <h3 className="text-lg font-bold text-gray-900">AI Insights</h3>
-        <span className="text-xs bg-white/80 px-2 py-1 rounded-full text-teal-600">Powered by AI</span>
+        <h3 className="text-lg font-bold text-gray-900">PureFarm Insights</h3>
+        <span className="text-xs bg-white/80 px-2 py-1 rounded-full text-teal-600">Powerful Insights</span>
       </div>
 
       <div className="space-y-4">

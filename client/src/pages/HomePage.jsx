@@ -9,7 +9,7 @@ import { getCategories } from "../redux/slices/categorySlice";
 import ProductCard from "../components/ProductCard";
 import FarmerCard from "../components/FarmerCard";
 import Loader from "../components/Loader";
-import { FaLeaf, FaUsers, FaShoppingBasket, FaHandshake, FaArrowRight, FaStore, FaTag } from "react-icons/fa";
+import { FaLeaf, FaUsers, FaShoppingBasket, FaHandshake, FaArrowRight, FaStore, FaTag, FaBrain } from "react-icons/fa";
 
 const HomePage = () => {
   const dispatch = useDispatch();
@@ -47,7 +47,7 @@ const HomePage = () => {
         <div className="relative max-w-4xl mx-auto px-4 text-center">
           <div className="inline-flex items-center justify-center mb-6">
             <div className="bg-gradient-to-r from-teal-600 to-emerald-600 p-3 rounded-2xl">
-             <div className="w-20 h-20 bg-white/20 rounded-full flex items-center justify-center backdrop-blur-sm">
+              <div className="w-20 h-20 bg-white/20 rounded-full flex items-center justify-center backdrop-blur-sm">
                 <div className="w-16 h-16 rounded-full overflow-hidden bg-white">
                   <img
                     src="/logo.png"
@@ -84,6 +84,41 @@ const HomePage = () => {
             >
               View Farmers
             </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* PUREFARM INSIGHTS SECTION */}
+      <section className="px-4">
+        <div className="max-w-6xl mx-auto">
+          <div className="bg-gradient-to-r from-teal-600 to-emerald-600 rounded-3xl p-8 md:p-12 text-center text-white shadow-xl">
+            <div className="inline-flex items-center gap-2 bg-white/20 rounded-full px-4 py-2 mb-6">
+              <FaBrain className="text-white text-lg" />
+              <span className="text-sm font-semibold">PureFarm Insights</span>
+            </div>
+            <h2 className="text-3xl md:text-4xl font-bold mb-4">
+              Smart Farming, Better Results
+            </h2>
+            <p className="text-teal-100 text-lg max-w-2xl mx-auto mb-8">
+              Get predictions on demand, freshness scores, and price optimization to maximize your farm's potential.
+            </p>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-3xl mx-auto">
+              <div className="bg-white/10 rounded-xl p-4 backdrop-blur-sm">
+                <div className="text-2xl mb-2">📊</div>
+                <p className="font-semibold">Demand Prediction</p>
+                <p className="text-sm text-teal-100">Know what sells</p>
+              </div>
+              <div className="bg-white/10 rounded-xl p-4 backdrop-blur-sm">
+                <div className="text-2xl mb-2">🥬</div>
+                <p className="font-semibold">Freshness Score</p>
+                <p className="text-sm text-teal-100">Quality guaranteed</p>
+              </div>
+              <div className="bg-white/10 rounded-xl p-4 backdrop-blur-sm">
+                <div className="text-2xl mb-2">💰</div>
+                <p className="font-semibold">Price Optimization</p>
+                <p className="text-sm text-teal-100">Maximize profits</p>
+              </div>
+            </div>
           </div>
         </div>
       </section>
